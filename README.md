@@ -1,3 +1,3 @@
 # pybio
 
-This repository contains pythons scripts to manipulate biologic data.
+This repository contains python scripts to manipulate biologic data.
