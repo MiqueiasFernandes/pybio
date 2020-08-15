@@ -135,7 +135,7 @@ class GFF:
         self.gen += 1
         return 'ID_gen_%d' % self.gen
 
-    def __init__(self, file, target_genes=None, target_seqs=None, style=Style_default, debug=['E']):
+    def __init__(self, file, target_genes=None, target_seqs=None, style=Style_default, debug=['E'], saveRAM=True):
         self.file_name = file
         self.debug = debug
         self.style = style
@@ -182,7 +182,7 @@ class GFF:
                             raw_mrnas.append(line)
                         continue
                     
-                    feature = Feature(line, style=self.style, idGen=self.idGenerator)
+                    feature = Feature(line, style=self.style, idGen=self.idGenerator, saveRAM=saveRAM)
 
                     if feature.is_gene():
                         gene = Gene(line, style=self.style, idGen=self.idGenerator)
@@ -204,7 +204,7 @@ class GFF:
                 self.mrnas = {}
                 mrnas_invalids = []
                 for line in raw_mrnas:
-                    feature = Feature(line, style=self.style, idGen=self.idGenerator)
+                    feature = Feature(line, style=self.style, idGen=self.idGenerator, saveRAM=saveRAM)
 
                     if len(feature.parents) == 1:
                         parent = feature.parents[0]
@@ -258,7 +258,7 @@ class GFF:
                         skiped += 1
                         continue
 
-                    feature = Feature(line, style=self.style, idGen=self.idGenerator)
+                    feature = Feature(line, style=self.style, idGen=self.idGenerator, saveRAM=saveRAM)
                     persist = False
 
                     if feature.feature in unknowns:
@@ -309,6 +309,6 @@ class GFF:
                     
 
 class RefSeqGFF(GFF):
-    def __init__(self, file, target_genes=None, target_seqs=None, debug=['E']):
-        GFF.__init__(self, file=file, target_genes=target_genes, target_seqs=target_seqs, debug=debug, style=Style_Refseq)
+    def __init__(self, file, target_genes=None, target_seqs=None, debug=['E'], saveRAM=True):
+        GFF.__init__(self, file=file, target_genes=target_genes, target_seqs=target_seqs, debug=debug, style=Style_Refseq, saveRAM=saveRAM)
 

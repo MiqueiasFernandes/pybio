@@ -2,6 +2,7 @@ from Bio import SeqIO
 
 class Genomic:
     def __init__(self, file):
+        self.file = file
         self.input_seq_iterator = SeqIO.parse(file, "fasta")
         self.data = None
 
@@ -16,10 +17,14 @@ class Genomic:
     def getSeq(self, seq):
         return self.asDict()[seq].seq
 
+    def getRecord(self, seq):
+        return self.asDict()[seq]
+
     def getSeqStr(self, seq):
         return str(self.asDict()[seq].seq)
 
     def byNames(self, names):
+        self.input_seq_iterator = SeqIO.parse(self.file, "fasta")
         return (record for record in self.input_seq_iterator if record.id in names)
 
     def persist(self, iterator, file):
